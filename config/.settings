@@ -1,0 +1,19 @@
+{
+    "username": "nleonard@libertyinnorthkorea.org.dadv", 
+    "environment": "sandbox", 
+    "project_name": "donation-management", 
+    "workspace": "/Users/Nick/Web/Workspaces/mavensmate", 
+    "org_url": "", 
+    "namespace": "", 
+    "id": "IPAXO0CMQRZ2FZBUES4747VXV3TI6DCM", 
+    "metadata_container": "1dc560000001niqAAA", 
+    "subscription": [
+        "ApexClass", 
+        "ApexComponent", 
+        "ApexPage", 
+        "ApexTrigger", 
+        "StaticResource", 
+        "CustomObject", 
+        "Profile"
+    ]
+}

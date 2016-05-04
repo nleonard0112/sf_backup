@@ -1,0 +1,38 @@
+<apex:page showHeader="true" sidebar="true" controller="rscSurveyAnswerController">
+   
+<apex:sectionHeader title="{!Definition.Name}" subtitle="{!Question.SectionName}"/>
+    
+    <apex:form >
+	    <apex:pageBlock title="Question {!Question.QuestionNumber} of {!Definition.NumberOfQuestions}">
+	        <apex:pageBlockButtons >
+	            <apex:commandButton value="Save and Continue" action="{!saveAndContinue}"/>
+	            <apex:commandButton value="Save and Quit" action="{!saveAndQuit}"/>
+	            <apex:commandButton value="Go Back" action="{!goBack}"/>
+	            <apex:commandButton value="Skip" action="{!skipQuestion}"/>
+	        </apex:pageBlockButtons>
+
+	        <apex:outputLabel value="{!Question.QuestionText}"/>
+
+	        <br/>
+	        <br/>
+
+	        <apex:outputPanel rendered="{!ShowSelectAnswerPanel}">
+               <apex:selectList value="{!Answer}" multiselect="false" size="1">
+                   <apex:selectOptions value="{!AnswerOptions}"/>
+               </apex:selectList>
+	        </apex:outputPanel>
+
+	        <apex:outputPanel rendered="{!ShowMultiSelectAnswerPanel}">
+               <apex:selectList value="{!Answer}" multiselect="true" size="5">
+                   <apex:selectOptions value="{!AnswerOptions}"/>
+               </apex:selectList>
+	        </apex:outputPanel>
+
+	        <apex:outputPanel rendered="{!ShowTextPanel}">
+                 <apex:inputTextarea cols="80" rows="10" value="{!Answer}"/>
+	        </apex:outputPanel>
+
+	        <!-- render answer -->
+	    </apex:pageBlock>
+	</apex:form>
+</apex:page>

@@ -1,0 +1,1 @@
+<apex:page showHeader="false" standardStyleSheets="false" sidebar="false" standardController="dm_Donor_Match__c" extensions="dmDonorMatchController" action="{!generateThanks}"/>

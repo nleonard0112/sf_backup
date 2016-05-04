@@ -1,0 +1,140 @@
+<apex:page standardController="rsc_Mission__c" extensions="rscMissionMapController" sidebar="false" standardStylesheets="false" showHeader="false">
+  <head>
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> 
+  
+  <script type="text/javascript"> 
+
+    var map;
+    var mapMarkers = {};
+    var INTERVAL = 10 * 1000;
+    var isInitialLoad = true;
+    var MAXIMUM_ZOOM = 15;
+    var pinIcons = {
+		'member'     : "{!URLFOR($Resource.MapIcons, 'icon_ff0000.png')}",
+		'rendezvous' : "{!URLFOR($Resource.MapIcons, 'icon_00ff00.png')}",
+    };
+
+    
+    	$(document).ready(function() {
+
+    	    var myOptions = {
+    	        zoom: MAXIMUM_ZOOM,
+    	        mapTypeId: google.maps.MapTypeId.ROADMAP,
+    	        mapTypeControl: false
+    	    }
+
+    	    map = new google.maps.Map(document.getElementById("map"), myOptions);
+            getMarkers();
+            setInterval(getMarkers, INTERVAL);
+    	});
+
+
+    	function handleGetMarkersResult(result, event) {
+        if (event.status) {
+          
+             var markerIdsToKeep = {};
+          	 for (markerId in mapMarkers) {
+  				       if (!mapMarkers.hasOwnProperty(markerId)) continue;
+  				           markerIdsToKeep[markerId] = false;
+  			     }
+
+
+      	     for (i = 0; i < result.length; i++) {
+
+            		var marker = result[i];
+            		markerIdsToKeep[marker.Id] = true;
+
+            		var position = new google.maps.LatLng(marker.Lat, marker.Lon);
+            		if (mapMarkers.hasOwnProperty(marker.Id)) {
+            			  mapMarkers[marker.Id].setPosition(position);
+            		} 
+            		else {
+            			//icons generated from http://gmapsmarkergenerator.eu01.aws.af.cm/ and added to MapIcons.resource
+    	                mapMarker = new google.maps.Marker({
+    			            position: position,
+    			            map: map,
+    			            icon: pinIcons[marker.Type],
+    			            title: "Test" //TODO - add field to MapMarker class for label
+    			        });
+    			        mapMarkers[marker.Id] = mapMarker;
+
+                  if(marker.Type === 'rendezvous') {
+
+                    var positionRadius = {
+                      strokeColor: '#00FF00',
+                      strokeOpacity: 0.0,
+                      strokeWeight: 0,
+                      fillColor: '#00FF00',
+                      fillOpacity: 0.35,
+                      map: map,
+                      center: position,
+                      radius: marker.Radius //This is in meters
+                    };
+                    var circle = new google.maps.Circle(positionRadius);
+                  }
+                 
+
+
+      		    } 
+      	   }
+        	//clean up markerIds that were added to map previosly, then removed in this request
+      	  for (markerId in mapMarkers) {
+			      if (!mapMarkers.hasOwnProperty(markerId)) continue;
+			      if (!markerIdsToKeep[markerId]) {
+				       mapMarkers[markerId].setMap(null);
+				       delete mapMarkers[markerId];
+			      }
+		      }
+      	
+        if (isInitialLoad) {
+      		  updateCenterOfMap();
+      		  isInitialLoad = false;
+      	}
+      } 
+    }
+
+    function getMarkers() {
+      	Visualforce.remoting.Manager.invokeAction(
+		    '{!$RemoteAction.rscMissionMapController.getMarkers}', '{!MissionId}', handleGetMarkersResult
+	    );
+    }
+
+    function updateCenterOfMap() {
+  		var bounds = new google.maps.LatLngBounds ();
+
+      
+
+  		for (markerId in mapMarkers) {
+  			if (!mapMarkers.hasOwnProperty(markerId)) continue;
+
+        console.log(mapMarkers[markerId].getPosition());
+  			bounds.extend(mapMarkers[markerId].getPosition());
+  		}
+
+  		map.fitBounds(bounds);
+  		map.setCenter(bounds.getCenter());
+
+  		//if few or close points on map, map.fitBounds() will zoom in too close
+  		if (map.getZoom() > MAXIMUM_ZOOM) map.setZoom(MAXIMUM_ZOOM);
+
+    }
+
+     
+  </script>
+
+  <style>
+	#map {
+	  font-family: Arial;
+	  font-size:12px;
+	  line-height:normal !important;
+	  height:500px;
+	  background:transparent;
+	}
+  </style>
+  </head>
+
+  <body>
+    <div id="map"></div> 
+  </body> 
+</apex:page>

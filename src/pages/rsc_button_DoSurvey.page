@@ -1,0 +1,1 @@
+<apex:page showHeader="true" sidebar="true" standardController="rsc_Resettlement_Survey__c" extensions="rscSurveyController" action="{!doSurvey}" />

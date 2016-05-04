@@ -1,0 +1,26 @@
+<apex:page docType="html-5.0" showHeader="true" sidebar="true" standardController="rsc_Client__c" extensions="rscDispenseFormController">
+
+ <apex:sectionHeader title="This page will allow you to allocate some items from inventory to the client" subtitle="Dispense Supplies"/>
+    
+    <apex:form >
+	    <apex:pageBlock title="Available Supplies"> 
+		    <apex:pageBlockButtons >
+		        <apex:commandButton value="Dispense" action="{!doDispense}"/>
+		        <apex:commandButton value="Cancel" action="{!doCancel}"/>
+		    </apex:pageBlockButtons>
+		    <apex:pageBlockTable var="s" value="{!Supplies}">
+
+		        <apex:column headerValue="Item Name">
+		            <apex:outputField value="{!s.Supplies__c}"/>
+		        </apex:column>
+
+		        <apex:column headerValue="Quantity">
+		            <apex:inputField type="number" value="{!s.Quantity__c}"/>
+		        </apex:column>  
+
+		    </apex:pageBlockTable>
+	    </apex:pageBlock>
+    </apex:form>
+
+	
+</apex:page>

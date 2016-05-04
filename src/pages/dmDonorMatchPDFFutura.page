@@ -1,0 +1,135 @@
+<apex:page controller="dmDonorMatchPDFController" applyHtmlTag="false" standardStyleSheets="false" showHeader="false" sidebar="false">
+  <html>
+    <head>
+      <title>{!fileName}</title>
+
+      <!--<script type="text/javascript"> 
+          window.onload = window.print;
+      </script>-->
+
+      <style type="text/css" > 
+
+        @page 
+        {
+          size: 8.5in 11.0in;
+          margin-top: 25mm;
+          margin-right: 35mm;
+          margin-bottom: 25mm;
+          margin-left: 35mm; 
+        } 
+
+        @page:last {
+           @bottom-center {
+            content: element(footer);
+            width: 100%;
+           }
+        }
+
+        html, body 
+        { 
+        	font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+        	font-size: 12px;
+        	line-height: 1.5;
+        	color: #484848;
+        	margin:0;
+		      padding:0;
+		      height:100%;
+        } 
+
+        .photo
+        {
+        	margin-right: auto; 
+        	margin-left: auto;
+        	text-align: center;
+        }
+      
+        .title
+        {
+        	margin-top: 20px;
+        	margin-bottom: 5px;
+        	color: #484848;
+        	font-size: 4em;
+        	margin-right: auto; 
+        	margin-left: auto;
+        	text-align: center;
+        	border-bottom: 1px solid #d3d3d3;
+        	width: 80%;
+        }
+
+        .name {
+        	font-weight: bold;
+        }
+
+        .summary-label {
+        	font-weight: bold;
+        }
+
+    		#wrapper
+    		{
+    		   min-height: 100%;
+    		   position: relative;
+    		}
+
+    		#content 
+    		{
+    		   padding-bottom:100px;
+    		}
+    		#header {}
+    		
+    		#footer {
+            clear: both;
+            position: relative;
+            z-index: 10;
+            height: 3em;
+            margin-top: -3em;
+        }
+
+       .summary 
+       {
+           margin-top: 5px;
+           margin-bottom: 40px;
+           text-align: center;
+           margin-right: auto;
+           margin-left: auto;
+       }
+
+       .column-left{ float: left; width: 40%; }
+    	 .column-right{ float: right; width: 40%; }
+
+      </style>
+    </head>     
+    <body>
+      <div id="wrapper"> 
+	     <div id="header"></div>
+       <div id="content">
+
+          <div class="photo">
+              <img src="/servlet/servlet.FileDownload?file={!attachmentId}"/>
+          </div>
+
+          <div class="title">
+		       Meet <span class="name">{!client.Media_Name__c}</span>
+		      </div>
+
+    		  <div class="summary">
+    		     
+    			  <div class="column-left"><span class="summary-label">Age | </span> 
+    			      <apex:outputText value="{0, number, ###,##0}"> 
+    			          <apex:param value="{!client.Age__c}"/> 
+    			      </apex:outputText>
+    			  </div>
+    			  <div class="column-right"><span class="summary-label">Location | </span> South Korea</div>
+    		  </div>
+		
+          <apex:outputText escape="false" value="{!client.Public_Story__c}"/>
+		
+      </div>
+
+      <div class="footer" id="footer">
+         <apex:outputText value="{!donorMatch.Donor_Thank__c}"/>
+		  </div>
+	    
+	  </div>
+    </body>
+  </html>
+</apex:page>

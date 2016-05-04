@@ -1,0 +1,158 @@
+<apex:page controller="dmTaxReceiptController" applyHtmlTag="false" standardStyleSheets="false" showHeader="false" sidebar="false" renderAs="pdf">
+  <html>
+    <head>
+      <style type="text/css" > 
+
+        @page 
+        {
+           @bottom-center {
+                content: element(footer);
+           }
+        } 
+        html, body 
+        { 
+        	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        	font-size: 12px;
+        	margin:0;
+		    padding:0;
+		    height:100%;
+        } 
+        table, td, th
+		{
+		    border-color: #000;
+		    border-style: solid;
+		}
+		table
+		{
+			width: 100%;
+		    border-width: 0 0 1px 1px;
+		    border-spacing: 0;
+		    border-collapse: collapse;
+		}
+		td, th
+		{
+		    margin: 0;
+		    padding: 4px;
+		    border-width: 1px 1px 0 0;
+		}
+        tfoot 
+        {
+            text-align: right;
+            font-weight: bold;
+        }
+		th
+		{
+            color: white;
+            background-color: #a0a0a0;
+            text-align: center;
+            font-weight: normal;
+		}
+		tr:nth-child(odd) { background-color:#eee; }
+        tr:nth-child(even) { background-color:#fff; }
+
+        .title 
+        {
+        	font-weight: bold;
+        	margin-bottom: 35px;
+        	margin-right: auto; 
+        	margin-left: auto;
+        	text-align: center;
+        }
+
+		#content 
+		{
+		   min-height:100%;
+		   position:relative;
+		}
+		#header 
+		{
+		   padding:10px;
+		}
+		#body 
+		{
+		   padding:10px;
+		   padding-bottom:60px;
+		}
+		div.footer 
+		{
+
+           display: block;
+           text-align: center;
+           color: #dd3928;
+           font-size 6px;
+           width: 100%;
+           font-weight: bold;
+           padding: 5px;
+           position: running(footer);
+           border-top: 1px solid #dd3928
+
+       }
+
+      </style>
+    </head>     
+    <body>
+      <div id="content"> 
+	    <div id="header">
+	      <h1><img src="{!$Resource.logo}"></img></h1>
+		  <div class="title">
+		    <h2>TAX DONATION RECEIPT</h2>
+		  </div>
+		</div>
+       <div id="body">
+	     <p>
+	         <apex:outputText value="{0, date, MMMM d','  yyyy}">
+                 <apex:param value="{!NOW()}" />
+             </apex:outputText>
+        </p>
+		 <p>
+		   <span style="font-weight: bold">Donor Information: </span><br/><br/>
+		   {!name} <br/>
+		   {!email}
+	  	 </p>		
+		 <apex:dataTable value="{!donations}" var="donation" >
+			<apex:column >
+			    <apex:facet name="header">Donation ID</apex:facet>
+				<apex:outputText value="{!donation.stayclassy__sc_order_id__c}"/>
+			</apex:column>
+			 <apex:column >
+			    <apex:facet name="header">Date</apex:facet>
+			    <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+				    <apex:param value="{!donation.CloseDate}" /> 
+				</apex:outputText>
+			</apex:column>
+		    	<apex:column >
+			    <apex:facet name="header">Description</apex:facet>
+				<apex:outputText value="{!donation.stayclassy__Campaign__r.Name}"/>
+			</apex:column>
+			<apex:column >
+			    <apex:facet name="header">Value</apex:facet>
+			    <apex:outputText value="${0, number, ###,###.00}">
+					<apex:param value="{!donation.Amount}" />
+				</apex:outputText>
+			</apex:column>
+
+			<apex:facet name="footer">
+				<apex:outputText value="Total: ${0, number, ###,###.00}">
+					<apex:param value="{!amount}" />
+				</apex:outputText>
+			</apex:facet>
+
+		 </apex:dataTable>
+
+         <p style="font-size: 16px; font-weight: bold;">Thank you for your support! Without it, our work would not be possible.</p>
+
+	     <p>
+	       We apologize for any delays with the tax-receipt for your donation. Should you have any questions or concerns regarding your tax-deductible donation, please e-mail Andrew, Donor Impact Manager, at <span style="font-weight: bold">aquan@libertyinnorthkorea.org</span>. 
+	     </p>
+	     <p>
+	      Tax-ID number: <span style="font-weight: bold">73-1710135</span> 
+		  Pursuant to Internal Revenue Service regulations: No goods or services were provided in exchange for this donation
+	     </p>
+        </div>
+	    <div class="footer" id="footer">
+          <p>WWW.LIBERTYINNORTHKOREA.ORG / 310-212-7190 / 1751 TORRANCE BLVD STE L, TORRANCE, CA 90501</p>
+		</div>
+	  </div>
+    </body>
+  </html>
+</apex:page>

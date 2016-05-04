@@ -1,0 +1,45 @@
+<apex:page id="pg" showHeader="false" sidebar="false" extensions="touNewContactFormController" standardController="Account">
+	<apex:form id="frm">
+
+        <script> 
+			function setFocusOnLoad() { 
+				document.getElementById('pg:frm:pb:pbSec:firstName').focus(); 
+			} 
+			onload=setFocusOnLoad; 
+		</script> 
+
+		<apex:pageBlock id="pb">
+
+		    <apex:pageBlockButtons location="top">
+		        <apex:commandButton action="{!saveContact}" value="Save"/>
+		        <apex:commandButton action="{!saveAndNewContact}" value="Save & New"/>
+		        <apex:commandButton action="{!cancelContact}" immediate="true" value="Cancel"/>
+		    </apex:pageBlockButtons>
+            
+            <apex:pageBlockSection id="pbSec">
+
+
+	            <apex:outputField value="{!AccountContact.AccountId}"/>
+			    <apex:inputField id="firstName" required="true" value="{!AccountContact.FirstName}"/>
+			    <apex:inputField value="{!AccountContact.LastName}"/>
+			    <apex:inputField value="{!AccountContact.Email}"/>
+			    <apex:inputField value="{!AccountContact.Phone}"/>
+			    <apex:inputField value="{!AccountContact.Title}"/>
+			    <apex:inputField value="{!AccountContact.Demographic__c}"/>
+
+
+
+		    </apex:pageBlockSection>
+
+		    <apex:pageBlockSection >
+		        <apex:pageBlockSectionItem >
+			        <apex:outputLabel for="switchCampaign" value="Switch this contact to the current season campaign owner"/>
+	                <apex:inputCheckbox id="switchCampaign" value="{!SwitchCampaignOwner}"/>
+                </apex:pageBlockSectionItem>
+		    </apex:pageBlockSection>
+
+
+		</apex:pageBlock>
+
+	</apex:form>
+</apex:page>

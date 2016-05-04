@@ -1,0 +1,15 @@
+<apex:page showHeader="true" sidebar="true">
+
+    <script type="text/javascript" src="https://libertyinnorthkorea.atlassian.net/s/079e1b54f9f971c06c9d62f0bc6a2fb1-T/en_USrwnc0r/65000/8/1.4.25/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=e025bc02"></script>
+
+     <apex:sectionHeader title="This page will allow you to submit feedback to the developers" subtitle="Feedback"/>
+
+      <apex:pageBlock > 
+
+          Please click the "Provide Feedback" tab on the right in order to submit a feedback ticket to the developer. Please give the ticket a short summary title and descriptive body for the best result. Optionally, attach a screenshot or image to help describe your feedback. 
+		   
+	  </apex:pageBlock>
+
+
+	
+</apex:page>

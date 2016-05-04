@@ -1,0 +1,163 @@
+<apex:page controller="dmDonorMatchPDFController" applyHtmlTag="false" applyBodyTag="false" standardStyleSheets="false" showHeader="false" sidebar="false" renderAs="pdf">
+<html>
+	<head>
+		<style type="text/css">
+            
+            body {
+            	font-family: Helvetica, Arial, sans-serif;
+            }
+
+            #first-page-wrapper {
+            	display: block;
+            	margin: 0 auto;
+            	margin-top: 57px;
+            	margin-bottom: 48px;
+            	width: 324px;
+
+            }
+
+            #second-page-wrapper {
+            	display: block;
+            	margin: 0 auto;
+            	margin-top: 180px;
+            	margin-bottom: 77px;
+            	width: 390px;
+            }
+
+            #first-page-content {
+                display: block;
+                margin: auto;
+            }
+
+            #second-page-content {
+                display: block;
+                margin: auto;
+            }
+
+            #photo {
+            	display: block;
+                margin: auto;
+                width: 160px;
+                height: 160px;
+                margin-bottom: 10px;
+            }
+
+            #meet-client-name {
+				font-size: 18pt;
+				color: #231f20;
+            }
+
+            #client-name {
+            	display: block;
+                text-align: center;
+            	font-size: 36pt;
+				line-height: 36pt;
+				color: #231f20;
+            }
+
+            #client-age {
+            	margin-top: 2px;
+            	display: block;
+                text-align: center;
+            	font-size: 16pt;
+				line-height: 23px;
+				color: #231f20;
+				margin-bottom: 47px;
+            }
+
+            .body-copy {
+            	font-size: 12pt;
+				line-height: 16pt;
+				color: #6d6e70;
+            }
+
+            .story-copy {
+            	margin-top: 46px;
+            	font-size: 12pt;
+				line-height: 16pt;
+				color: #6d6e70;
+            }
+
+	        #footer {
+
+	        	font-size: 8pt;
+				line-height: 10pt;
+				color: #6d6e70;
+				margin-top: 70px;
+	        }
+
+	        #footer-photo {
+                width: 67px;
+                height: 67px;
+                margin-right: 28px;
+                display: inline-block;
+                vertical-align: top;
+            }
+
+             #footer div {
+		        display: inline-block;
+		        width: 226px;
+		        vertical-align: top;
+	        }
+
+		</style>
+	</head>
+	<body>
+		<div id="first-page-wrapper">
+             <img id="photo" src="{!URLFOR($Resource.donor_match_photos)}/{!Photo}" alt="profile"></img>
+             <div id="first-page-content">
+                 <div id="client-name">{!client.Media_Name__c}</div>
+                 <div id="client-age">
+                    <apex:outputText value="Age {0, number, ###,##0}"> 
+    			        <apex:param value="{!client.Age__c}"/> 
+    			    </apex:outputText>
+                 </div>
+
+                 <p class="body-copy">
+                    <apex:outputText rendered="{!BornNorthKorea}" value="After making the daring escape from North Korea, {!client.Media_Name__c} was immediately at risk of being captured and returned where {!HeShe} could have faced severe punishment or been sentenced to political prison camp."/><apex:outputText rendered="{!BornChina}" value="{!client.Media_Name__c}'s mother escaped from North Korea in search of a better life. After crossing the border into China, she was forced to keep hidden for fear of being caught and sent back. It was during this time in China that {!client.Media_Name__c} was born. To provide more for {!client.Media_Name__c}, {!HisHer} mother seized the opportunity to escape."/>  
+                 </p>
+
+                 <p class="body-copy">
+                    Because of you, {!client.Media_Name__c} was rescued.
+                 </p>
+
+                 <p class="body-copy">
+                    With your funds, LiNK was able to find {!client.Media_Name__c} and
+					help {!HimHer} make a 3,000-mile journey to safety. This
+					life-changing rescue has given {!client.Media_Name__c} the opportunity
+					to live in freedom and is only the beginning of the impact
+					your donation will make in {!HisHer} new life.<apex:outputText rendered="{!TraveledWithFamily}" value=" {!client.Media_Name__c} was rescued along with another member of
+{!HisHer} family.}"/><apex:outputText rendered="{!ReunitedWithFamily}" value=" {!client.Media_Name__c} will be reuniting with family
+members who have already reached safety."/>
+
+                 </p>
+
+                <div id="footer">
+	                <img id="footer-photo" src="{!URLFOR($Resource.donor_match_photos)}/link_logo.png" alt="link logo"></img>
+
+	                <div>For security reasons, the real names of North Korean reguees
+					are often replaced with pseudonyms. As well, some refugees
+					still have family inside North Korea and choose to conceal their
+					indentity to keep themselves and their families safe.
+					</div>
+                </div>
+
+            </div>
+           
+		</div>
+
+		<div style="page-break-before:always">&nbsp;</div> 
+
+        <div id="second-page-wrapper">
+	        <div id="second-page-content">
+                <div id="meet-client-name">Meet {!client.Media_Name__c}</div>
+
+                <div class="story-copy">
+                    <apex:outputText escape="false" value="{!client.Public_Story__c}"/>
+                </div>
+	        </div>
+	    </div>
+
+	</body>
+</html>
+</apex:page>
